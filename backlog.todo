@@ -1,0 +1,19 @@
+ VUOX website and backend system:
+ ✔ create user table @done (17-10-19 01:36)
+ ✔ home page @done (17-10-18 23:48)
+ ✔ sign up page @done (17-10-18 23:48)
+ ✔ user can sign up @done (17-10-18 23:48)
+ ✔ login page @done (17-10-18 23:48)
+ ✔ user can login @done (17-10-18 23:48)
+ ✔ user can logout @done (17-10-18 23:48)
+ ✔ user can change password @done (17-10-19 01:36)
+ ☐ profile page - show sign in information and billing contact information
+ ☐ account page - show list of services
+ ☐ create billing contact table
+ ☐ create service table
+ ☐ client dashboard page - show summary info of account
+
+
+
+
+

@@ -1,0 +1,74 @@
+{% extends 'app.twig' %}
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-6 mx-auto mb-3">
+			<div class="card">
+				<div class="card-body">
+					<h1 class="card-title">Account</h1>
+					<p class="card-text">Update your account information</p>
+					<form action="{{ path_for('me.profile') }}" method="post">
+						<div class="form-group">
+							<label for="name">Name</label>
+							<input name="name" class="form-control {{ s.danger.name ? " is-invalid" : "" }}" type="text" id="name" value="{{ s.form.name }}">
+							<small class="form-text">{{ s.danger.name | first }}</small>
+						</div>
+
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input name="email" class="form-control {{ s.danger.email ? " is-invalid" : "" }}" type="email" id="email" value="{{ s.form.email }}">
+							<small class="form-text">{{ s.danger.email | first }}</small>
+						</div>
+
+						<div class="form-group">
+							<label for="email">Confirm Email</label>
+							<input name="confirm_email" class="form-control {{ s.danger.confirm_email ? " is-invalid" : "" }}" type="email" id="email" value="{{ s.form.confirm_email }}">
+							<small class="form-text">{{ s.danger.confirm_email | first }}</small>
+						</div>
+
+						<button class="btn btn-primary" type="submit">Update account</button>
+
+						{{ s.csrf_token | raw }}
+
+					</form>	
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 mx-auto mb-3">
+			<div class="card">
+				<div class='card-body'>
+					<h1 class="card-title">Change password</h1>
+						<p class="card-text">Enter your current and new passwords to change password on your next sign in.</p>
+						<form action="{{ path_for('me.password') }}" method="post">
+							<div class="form-group">
+								<label for="password_old">Password</label>
+								<input name="password_old" class="form-control {{ s.danger.password_old ? " is-invalid" : "" }}" type="password" id="password_old">
+								<small class="form-text">{{ s.danger.password_old | first }}</small>
+							</div>
+							<div class="form-group">
+								<label for="password">New password</label>
+								<input name="password" class="form-control {{ s.danger.password ? " is-invalid" : "" }}" type="password" id="password">
+								<small class="form-text">{{ s.danger.password | first }}</small>
+							</div>
+
+							<button class="btn btn-primary" type="submit">Change password</button>
+
+							{{ s.csrf_token | raw }}
+						</form>
+					</h1>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<a href="profile/contact">Add Contact</a>
+
+
+	
+    
+    
+    
+    
+    
+
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'app.twig' %}
+{% block content %}
+<div class="container">
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Sign up</h1>
+			<p class="card-text">Create a client account with Realize Creations to manage your services and subscriptions.</p>
+			<form action="{{ path_for('guest.signup') }}" method="post">
+				<div class="form-group">
+					<label for="name">Name</label>
+					<input name="name" class="form-control {{ s.danger.name ? " is-invalid" : "" }}" type="text" id="name" value="{{ s.form.name }}">
+					<small class="form-text">{{ s.danger.name | first }}</small>
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input name="email" class="form-control {{ s.danger.email ? " is-invalid" : "" }}" type="email" id="email" value="{{ s.form.email }}">
+					<small class="form-text">{{ s.danger.email | first }}</small>
+				</div>
+
+				<div class="form-group">
+					<label for="password">Password</label>
+					<input name="password" class="form-control {{ s.danger.password ? " is-invalid" : "" }}" type="password" id="password">
+					<small class="form-text">{{ s.danger.password | first }}</small>
+				</div>
+
+				<button type="submit">Sign up</button>
+
+				{{ session.csrf_token | raw }}
+
+				{{ dump(s) | raw }}
+				
+			</form>	
+		</div>
+	</div>
+</div>
+{% endblock %}

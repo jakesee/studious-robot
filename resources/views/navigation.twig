@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand-md bg-light navbar-light">
+	<a class="navbar-brand" href="#">REALIZE CREATIONS</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+	<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarNav">
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item active"><a class="nav-link" href="{{ path_for('public.home') }}">Home <span class="sr-only">(current)</span></a></li>
+			<li class="nav-item dropdown">
+				<a class="nav-link" data-toggle="dropdown" href="{{ path_for('public.home') }}">Services</a>
+				<ul class="dropdown-menu" id="dropdownServices">
+					<li class="nav-item dropdown-item"><a class="nav-link" href="{{ path_for('public.hosting') }}">VUOX Web Hosting</a></li>
+					<li class="nav-item dropdown-item"><a class="nav-link" href="{{ path_for('public.domain') }}">Domain Registration</a></li>
+				</ul>
+			</li>
+			<li class="nav-item"><a class="nav-link" href="{{ path_for('public.home') }}">Blog</a></li>
+			<li class="nav-item"><a class="nav-link" href="{{ path_for('public.home') }}">Gallery</a></li>
+			{% if not s.user %}
+			<li class="nav-item"><a class="nav-link disabled" href="{{ path_for('guest.signin')}}">Sign In</a></li>
+			<li class="nav-item"><a class="nav-link disabled" href="{{ path_for('guest.signup')}}">Sign Up</a></li>
+			{% else %}
+			<li class="nav-item dropdown d-none d-md-block">
+				<a class="nav-link text-primary" data-toggle="dropdown" href="#">{{ s.user.name }}</a>
+				<ul class="dropdown-menu dropdown-menu-right" id="dropdownAccount">
+					<li class="nav-item dropdown-item"><a class="nav-link" href="{{ path_for('me.dashboard') }}">Dashboard</a></li>
+					<li class="nav-item dropdown-item"><a class="nav-link" href="{{ path_for('me.services') }}">Services</a></li>
+					<li class="nav-item dropdown-item"><a class="nav-link" href="{{ path_for('me.profile') }}">Profile</a></li>
+					<li class="nav-item dropdown-item"><a class="nav-link" href="{{ path_for('me.cart') }}">Cart</a></li>
+					<div class="dropdown-divider"></div>
+					<li class="nav-item dropdown-item"><a class="nav-link" href="{{ path_for('me.signout') }}">Sign out</a></li>
+				</ul>
+			</li>
+			<li class="dropdown-divider"></li>
+			<li class="nav-item d-md-none"><a class="nav-link" href="{{ path_for('me.dashboard') }}">Dashboard</a></li>
+			<li class="nav-item d-md-none"><a class="nav-link" href="{{ path_for('me.services') }}">Services</a></li>
+			<li class="nav-item d-md-none"><a class="nav-link" href="{{ path_for('me.profile') }}">Profile</a></li>
+			<li class="nav-item d-md-none"><a class="nav-link" href="{{ path_for('me.cart') }}">Profile</a></li>
+			<div class="dropdown-divider"></div>
+			<li class="nav-item d-md-none"><a class="nav-link" href="{{ path_for('me.signout') }}">Sign out</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>

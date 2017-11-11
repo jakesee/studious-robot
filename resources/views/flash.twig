@@ -1,0 +1,31 @@
+{% if flash.getMessage('info') %}
+<div class="navbar alert-info text-center">
+	<div class="container">
+		{{ flash.getMessage('info') | first }}
+	</div>
+</div>
+{% endif %}
+
+{% if flash.getMessage('warning') %}
+<div class="navbar alert-warning text-center">
+	<div class="container">
+		{{ flash.getMessage('warning') | first }}
+	</div>
+</div>
+{% endif %}
+
+{% if flash.getMessage('success') %}
+<div class="navbar alert-success text-center">
+	<div class="container">
+		{{ flash.getMessage('success') | first }}
+	</div>
+</div>
+{% endif %}
+
+{% if flash.getMessage('danger') %}
+<div class="navbar alert-danger text-center">
+	<div class="container">
+		{{ flash.getMessage('danger') | first }}
+	</div>
+</div>
+{% endif %}

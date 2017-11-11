@@ -1,0 +1,40 @@
+{% extends 'app.twig' %}
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-sm-12">
+			<h1 class="card-title">Services &amp; Subscriptions</h1>
+			{% for contact in contacts %}
+			<div class="card mb-5">
+				<div class="card-body">
+					<h2 class="card-title">{{contact.name}}</h2>
+					<p class="card-text">&lt;{{contact.email}}&gt; {{ contact.company }}</p>
+					<table class="table table-striped">
+						<thead>
+							<th>order #</th>
+							<th>status</th>
+							<th>summary</th>
+							<th>start</th>
+							<th>end</th>
+						</thead>
+						<tbody>
+						{% for order in contact.orders %}
+							{% for orderline in order.orderlines %}
+							<tr>
+								<td>{{ order.id }}</td>
+								<td>{{ orderline.status }}</td>
+								<td>{{ orderline.summary }}</td>
+								<td>{{ orderline.active_start }}</td>
+								<td>{{ orderline.active_end }}</td>
+							</tr>
+							{% endfor %}
+						{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}

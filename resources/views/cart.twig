@@ -1,0 +1,55 @@
+{% extends 'app.twig' %}
+{% block content %}
+<div class="container">
+	<h1>Order Cart</h1>
+	<form action="{{path_for('me.cart.update')}}" method="post" id="formUpdate">
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Description</th>
+			<th>Unit Price</th>
+			<th>Quantity</th>
+			<th>Options</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+{% for item in form.cart %}
+	<tr>
+		<td>{{ loop.index }}</td>
+		<td>{{ item.summary }}</td>
+		<td>SGD {{ item.price | number_format(2) }}</td>
+		<td>{% if item.qty_unit != null %}
+			<select class="form-control" name="quantity[{{loop.index0}}]" id="">
+			{% for i in 1..9 %}
+			    <option value="{{i}}" {% if item.quantity == i %}selected{% endif %}>{{i}} {{ item.qty_unit }}</option>
+			{% endfor %}
+			</select>
+		{% else %}
+		    1
+		{% endif %}</td>
+		<td>{% if item.type == 'domain' %}
+			<input class="form-control" type="text" name="options[{{loop.index0}}]" placeholder="Enter domain name" value="{{item.options}}">
+			<small class="form-text text-muted">Domain name to be registered.</small>
+		{% endif %}</td>
+		<td><button type="submit" name="index" value="{{loop.index0}}" form="formRemove">Remove</button></td>
+	</tr>
+{% endfor %}
+</tbody>
+</table>
+</form>
+
+<form action="{{path_for('me.cart.remove')}}" method="post" id="formRemove"></form>
+<form action="{{path_for('me.cart.empty')}}" method="post" id="formEmpty"></form>
+<form action="{{path_for('me.cart.checkout')}}" method="post" id="formCheckout"></form>
+
+<div class="btn-group float-right">
+	<button class="btn btn-secondary" type="submit" form="formEmpty">Clear</button>
+	<button class="btn btn-secondary" type="submit" form="formUpdate">Update</button>
+	<button class="btn btn-primary" type="submit" form="formCheckout">Checkout</button>
+</div>
+
+</div>
+
+{% endblock %}

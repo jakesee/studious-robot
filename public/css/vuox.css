@@ -1,0 +1,12 @@
+body {
+	
+}
+
+#home.jumbotron {
+	background: url('../resources/bg1.jpg');
+	background-position: cover;
+}
+
+table.table tr.even {
+	background-color: rgba(0,0,0,.05);
+}

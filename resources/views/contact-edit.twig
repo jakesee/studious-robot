@@ -1,0 +1,42 @@
+{% extends 'app.twig' %}
+{% block content %}
+  <div class="container">
+<form action="{{path_for('me.contact.edit', {'id': form.id})}}" method="post">
+	<div class="form-group">
+		name <input class="form-control" type="text" name="name" value="{{form.name}}">
+		<small class="help-text">{{error.name | first}}</small>
+	</div>
+	<div class="form-group">
+		company <input class="form-control" type="text" name="company" value="{{form.company}}">
+		<small class="help-text">{{error.company | first}}</small>
+	</div>
+	<div class="form-group">
+		address1 <input class="form-control" type="text" name="address1" value="{{form.address1}}">
+		<small class="help-text">{{error.address1 | first}}</small>
+	</div>
+	<div class="form-group">
+		address2 <input class="form-control" type="text" name="address2" value="{{form.address2}}">
+		<small class="help-text">{{error.address2 | first}}</small>
+	</div>
+	<div class="form-group">
+		address3 <input class="form-control" type="text" name="address3" value="{{form.address3}}">
+		<small class="help-text">{{error.address3 | first}}</small>
+	</div>
+	<div class="form-group">
+		phone <input class="form-control" type="text" name="phone" value="{{form.phone}}">
+		<small class="help-text">{{error.phone | first}}</small>
+	</div>
+	<div class="form-group">
+		email <input class="form-control" type="text" name="email" value="{{form.email}}">
+		<small class="help-text">{{error.email | first}}</small>
+	</div>
+	<button type="submit">Update contact</button>
+	<input type="hidden" name="id" value="{{form.id}}">
+
+	{{ s.csrf_token | raw }}
+
+	{{ dump(form) | raw }}
+</form>
+</div>
+
+{% endblock %}

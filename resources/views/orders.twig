@@ -1,0 +1,27 @@
+{% extends 'app.twig' %}
+{% block content %}
+    <div class="container">
+    	<table class="table table-striped">
+    		<thead>
+    			<tr>
+    			<th>Name</th>
+    			<th>Email</th>
+    			<th>Phone</th>
+    			<th>Ordered</th>
+    			<th>action</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			{% for order in orders %}
+    			<tr>
+    				<td>{{order.contact.name}}</td>
+    				<td>{{order.contact.email}}</td>
+    				<td>{{order.contact.phone}}</td>
+    				<td>{{order.ordered_at}}</td>
+    				<td><a href="{{path_for('admin.order', {id: order.id})}}">manage</a></td>
+    			</tr>
+    			{% endfor %}
+    		</tbody>
+    	</table>
+    </div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'app.twig' %}
+{% block content %}
+<div class="container">
+	
+	<div class="card">
+		<div class="card-body">
+			<h1 class="card-title">Manage Order</h1>
+			<div class="card-block">
+				<div class="row">
+					<div class="col-sm-6">
+						<h3>{{order.contact.name}}</h3>
+						<p class="card-text">
+						{{order.contact.company}}<br/>
+						{{order.contact.address1}}<br/>
+						{{order.contact.address2}}<br/>
+						{{order.contact.address3}}</p>
+						<p class="card-text">
+						Email: {{order.contact.email}}<br/>
+						Phone: {{order.contact.phone}}
+						</p>
+					</div>
+					<div class="col-sm-6">
+						<h3 class="card-text">Instructions</h3>
+						<p>{{order.instructions}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<table class="table">
+		{% for orderline in order.orderlines %}
+		<thead class="thead-dark">
+			<th colspan"2">{{orderline.summary}}</th>
+		</thead>
+		<tbody>
+			<form action="{{path_for('admin.orderline.edit')}}" method="post">
+			<tr>
+				<th class="d-inline-block col-sm-2" scope="row">Summary</th>
+				<td class="d-inline-block col-sm-10"><input type="text" class="form-control" value="{{orderline.summary}}"></td>
+			</tr>
+			<tr>
+				<th class="d-inline-block col-sm-2" scope="row">Invoice Text</th>
+				<td class="d-inline-block col-sm-10"><input type="text" class="form-control" value="{{orderline.invoice_text}}"></td>
+			</tr>
+			<tr>
+				<th class="d-inline-block col-sm-2" scope="row">Options</th>
+				<td class="d-inline-block col-sm-10"><input type="text" class="form-control" value="{{orderline.options}}"></td>
+			</tr>
+			<tr>
+				<th class="d-inline-block col-sm-2" scope="row">Active Start</th>
+				<td class="d-inline-block col-sm-4"><input type="date" class="form-control" value="{{orderline.active_start}}"></td>
+				<th class="d-inline-block col-sm-2" scope="row">Active End</th>
+				<td class="d-inline-block col-sm-4"><input type="date" class="form-control" value="{{orderline.active_end}}"></td>
+			</tr>
+			<tr>
+				<th class="d-inline-block col-sm-2" scope="row">Next Start</th>
+				<td class="d-inline-block col-sm-4"><input type="date" class="form-control" value="{{orderline.next_start}}"></td>
+				<th class="d-inline-block col-sm-2" scope="row">Next End</th>
+				<td class="d-inline-block col-sm-4"><input type="date" class="form-control" value="{{orderline.next_end}}"></td>
+			</tr>
+			<tr>
+				<th class="d-inline-block col-sm-2" scope="row">Price (SGD)</th>
+				<td class="d-inline-block col-sm-2"><input type="text" class="form-control" value="{{orderline.price}}"></td>
+				<th class="d-inline-block col-sm-1" scope="row">Quantity</th>
+				<td class="d-inline-block col-sm-1"><input type="text" class="form-control" value="{{orderline.quantity}}"></td>
+				<th class="d-inline-block col-sm-1" scope="row">Recurring?</th>
+				<td class="d-inline-block col-sm-1"><input type="checkbox" value="{{orderline.is_recurring}}"></td>
+				<th class="d-inline-block col-sm-1" scope="row">Status</th>
+				<td class="d-inline-block col-sm-2"><select class="form-control" name="status" id="">
+					<option value="pending" {% if "pending" == orderline.status %}selected{% endif %}>pending</option>
+					<option value="processing" {% if "processing" == orderline.status %}selected{% endif %}>processing</option>
+					<option value="active" {% if "active" == orderline.status %}selected{% endif %}>active</option>
+					<option value="cancelled" {% if "cancelled" == orderline.status %}selected{% endif %}>cancelled</option>
+				</select></td>
+			</tr>
+			</form>
+			<form action="path_for('admin.orderline.delete')"></form>
+			<tr>
+				<td colspan="2">
+					<div class="btn-group float-right">
+						<button class="btn"><i class="fa fa-trash"></i> Delete</button>
+						<button class="btn btn-primary"><i class="fa fa-refresh"></i> Update</button>
+					</div>
+				</td>
+		</tbody>
+		{% endfor %}
+	</table>
+
+</div>
+    
+{% endblock %}

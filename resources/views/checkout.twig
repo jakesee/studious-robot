@@ -1,0 +1,70 @@
+{% extends 'app.twig' %}
+{% block content %}
+<div class="container">
+	<h1>Order Cart</h1>
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Description</th>
+			<th>Unit Price</th>
+			<th>Quantity</th>
+			<th>Options</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+	<tbody>
+{% for item in s.cart %}
+	<tr>
+		<td>{{ loop.index }}</td>
+		<td>{{ item.summary }}</td>
+		<td>SGD {{ item.price | number_format(2) }}</td>
+		<td>{{ item.quantity ~ " " ~ item.qty_unit }}</td>
+		<td>{{item.options}}</td>
+		<td>SGD {{subtotals[loop.index0] | number_format(2)}}</td>
+	</tr>
+{% endfor %}
+<tr>
+	<th colspan="5" class="text-right">Order Total</th>
+	<td colspan="1">SGD {{grandtotal | number_format(2)}}</td>
+</tr>
+</tbody>
+</table>
+
+<form action="{{path_for('me.cart.confirm')}}" method="post" id="formConfirm">
+<table class="table">
+	<tr>
+		<th class="w-25">Contact
+			<small class="form-text text-muted">You may add additional contacts from <a href="{{path_for('me.profile')}}">Profile</a>.</small>
+		</th>
+		<td><select class="form-control {% if error.contact_id %}is-invalid{% endif %}" name="contact_id" id="">
+			<option value="0">-- Select Admin/Billing Contact --</option>
+			{% for contact in contacts %}
+			    <option value="{{contact.id}}" {% if contact.id == form.order.contact_id %}selected{% endif %}>{{contact.name}} &lt;{{contact.email}}&gt;</option>
+			{% endfor %}
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<th>Instructions
+			<small class="form-text text-muted">You may add any additional instructions here pertaining to this order.</small>
+			<small class="form-text text-muted">If you are registering .sg domains, please provide your NRIC number for SingPass verification.</small>
+			<small class="form-text text-muted">If you are registering .com.sg or .org.sg domain names, please also provide your organisation registration number for verification purposes.</small>
+		</th>
+		<td>
+		<textarea class="form-control" name="instructions" id="" cols="30" rows="10">{{form.order.instructions}}</textarea>
+		</td>
+	</tr>
+</table>
+<input type="checkbox" name="agree" id=""> I have read and agreed to the terms and conditions. I understand that this order is subject to availability.
+<div class="clear-fix mb-2"></div>
+</form>
+
+<form action="{{path_for('me.cart')}}" id="formCart"></form>
+<div class="btn-group float-right">
+	<button type="submit" class="btn btn-secondary" form="formCart">Back To Cart</button>
+	<button type="submit" class="btn btn-primary" form="formConfirm">Confirm Order</button>	
+</div>
+</div>
+
+{% endblock %}
