@@ -1,4 +1,5 @@
 <?php
 require_once __DIR__ . '/../bootstrap/app.php';
 
-$app->run();
+// Run the application silently, defering output to client
+$app->respond($app->run(true)->render());

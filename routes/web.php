@@ -2,6 +2,9 @@
 
 use VUOX\Models\User;
 
+// test route
+$app->get('/template', 'VUOX\Controllers\TemplateController:getTemplate');
+
 // public area
 $app->get('/', 'VUOX\Controllers\PublicController:getHome')->setName('public.home');
 $app->get('/hosting', 'VUOX\Controllers\PublicController:getHosting')->setName('public.hosting');

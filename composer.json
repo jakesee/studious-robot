@@ -11,13 +11,16 @@
         "slim/csrf": "^0.8.2",
         "illuminate/database": "^5.4",
         "respect/validation": "^1.1",
-        "slim/flash": "^0.2.0"
+        "slim/flash": "^0.2.0",
+        "jakesee/slim-template-response": "1.0.0"
     },
     "require-dev": {
+        "phpunit/phpunit": "^6.4"
     },
     "autoload": {
         "psr-4": {
-            "VUOX\\": "app/src"
+            "VUOX\\": "app/src",
+            "VUOX\\Tests\\": "tests"
         }
     }
 }

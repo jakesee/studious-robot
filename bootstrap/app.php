@@ -25,6 +25,15 @@ $app = new \Slim\App([
 
 $container = $app->getContainer();
 
+// inject custom Response object to be used for deffered rendering of template
+$container['response'] = function($container) {
+	$headers = new \Slim\Http\Headers(['Content-Type' => 'text/html; charset=UTF-8']);
+	$template = new \Braincase\Slim\Template($container, __DIR__ . '/../resources/views/');
+	$response = new \Braincase\Slim\Response($template, 200, $headers);
+
+	return $response->withProtocolVersion($container->get('settings')['httpVersion']);
+};
+
 $capsule = new \Illuminate\Database\Capsule\Manager;
 $capsule->addConnection($container->settings['db']);
 $capsule->setAsGlobal();

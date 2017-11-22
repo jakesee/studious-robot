@@ -11,7 +11,13 @@ class PublicController extends Controller
 	{
 		$items = Item::all();
 
+		/* Disable TwigView
 		return $this->view->render($response, 'home.twig', [
+			'items' => $items->toArray()
+		]);*/
+
+		// Use custom Template engine
+		return $response->withTemplate('home.php', [
 			'items' => $items->toArray()
 		]);
 	}
