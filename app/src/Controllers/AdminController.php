@@ -27,7 +27,11 @@ class AdminController extends Controller
 		$status = $request->getAttribute('status');
 		$orders = Order::with('contact')->where('status', $status)->get();
 
-		return $this->view->render($response, 'orders.twig', [
+		// return $this->view->render($response, 'orders.twig', [
+		// 	'orders' => $orders->toArray()
+		// ]);
+
+		return $response->withTemplate('order.html', [
 			'orders' => $orders->toArray()
 		]);
 	}

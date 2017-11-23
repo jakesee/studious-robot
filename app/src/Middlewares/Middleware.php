@@ -1,7 +1,7 @@
 <?php
 namespace VUOX\Middlewares;
 
-class Middleware extends \Twig_Extension
+class Middleware
 {
 	protected $container;
 

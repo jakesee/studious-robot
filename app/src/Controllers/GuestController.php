@@ -17,21 +17,21 @@ class GuestController extends Controller
 
 	public function getSignUp($request, $response)
 	{
-		return $this->view->render($response, 'signup.twig');
+		return $response->withTemplate('signup.twig', []);
 	}
 
 	public function postSignUp($request, $response)
 	{
-		$validator = $this->validator->validate($request->getParams(), [
+		if($this->validator->validate($request->getParams(), [
 			'name' => v::notEmpty()->length(3, 60),
 			'email' => v::notEmpty()->email()->emailAvailable(),
 			'password' => v::notEmpty()->length(8),
-		]);
-
-		if($validator->failed())
+		])->failed())
 		{
-			$this->session->fillForm($request->getParams());
-			return $this->view->render($response, 'signup.twig');
+			return $response->withTemplate('signup.php', [
+				'input' => $request->getParams(),
+				'errors' => $this->validator->getErrors()
+			]);
 		}
 
 		User::create([

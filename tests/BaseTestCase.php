@@ -18,9 +18,7 @@ class BaseTestCase extends TestCase
 
 	public function setup()
 	{
-		global $app; // bootstrapped by phpunit.xml
-
-		$this->app = $app;
+		$this->app = new \Application();
 	}
 
 	public function testAppIsInitialized()
@@ -30,6 +28,15 @@ class BaseTestCase extends TestCase
 
 	public function tearDown()
 	{
+		// $tables = $this->app->db->select('SHOW TABLES');
+        $DB = $this->app->db->getConnection();
+        $tables = $DB->select('SHOW TABLES');
+        foreach($tables as $table)
+        {
+            $DB->table($table->Tables_in_slim)->truncate();
+        }
+
+        // remove the app
 		$this->app = null;
 	}
 
@@ -43,23 +50,26 @@ class BaseTestCase extends TestCase
 		$this->assertEquals($expectedContentType, $this->response->getHeader('Content-Type'));
 	}
 
-	protected function responseData()
+	protected function getResponseJson()
 	{
 		return json_decode((string) $this->response->getBody(), true);
 	}
 
-	protected function request($method, $url, array $requestParameters = [])
+	protected function getResponseData()
 	{
-		$request = $this->prepareRequest($method, $url, $requestParameters);
-		$response = new Response;
+		return $this->response->getTemplate()->data;
+	}
 
-		$app = $this->app;
-		$this->response = $app($request, $response);
+	protected function route($method, $url, array $requestParameters = [], $handler)
+	{
+		$request = $this->createRequest($method, $url, $requestParameters);
+		
+		$this->response = call_user_func_array($handler, array($request, $this->app->response));
 
 		return $this->response;
 	}
 
-	private function prepareRequest($method, $url, array $requestParameters)
+	public function createRequest($method, $url, array $requestParameters)
 	{
 		$env = Environment::mock([
 			'SCRIPT_NAME' => '/index.php',

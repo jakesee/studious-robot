@@ -6,14 +6,7 @@ use Respect\Validation\Exceptions\NestedValidationException;
 
 class Validator
 {
-	protected $danger;
-
-	protected $session;
-
-	public function __construct(SessionMiddleware $session)
-	{
-		$this->session = $session;
-	}
+	protected $errors;
 
 	public function validate($inputs, $rules)
 	{
@@ -27,22 +20,20 @@ class Validator
 			}
 			catch (NestedValidationException $e)
 			{
-				$this->danger[$field] = $e->getMessages();
+				$this->errors[$field] = $e->getMessages();
 			}
 		}
 
-		// save errors to session
-		if(!empty($this->danger))
-		{
-			$this->session->add('danger', $this->danger);
-			return $this->danger;
-		}
-
-		return false;
+		return $this;
 	}
 
 	public function failed()
 	{
-		return !empty($this->danger);
+		return !empty($this->errors);
+	}
+
+	public function getErrors()
+	{
+		return $this->errors;
 	}
 }

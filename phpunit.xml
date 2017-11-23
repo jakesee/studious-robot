@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <phpunit
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/6.3/phpunit.xsd"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.7/phpunit.xsd"
+         backupGlobals="true"
+         backupStaticAttributes="false"
          bootstrap="bootstrap\app.php"
-         colors="false"
+         colors="true"
          stopOnFailure="false"
          verbose="true">
-   <testsuites>
+  <testsuites>
       <testsuite name="My Test Suite">
-         <directory>tests</directory>
+         <!-- <directory>tests</directory> -->
+         <!-- <file>tests/SampleTest.php</file> -->
+         <file>tests/GuestControllerTest.php</file>
       </testsuite>
    </testsuites>
 </phpunit>
