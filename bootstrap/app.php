@@ -19,7 +19,7 @@ final class Application
 					'host' => 'localhost',
 					'database' => 'slim',
 					'username' => 'root',
-					'password' => 'Redbull25',
+					'password' => '',
 					'charset' => 'utf8',
 					'collation' => 'utf8_unicode_ci',
 					'prefix' => '',
