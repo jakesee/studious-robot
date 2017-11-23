@@ -28,7 +28,7 @@ class BaseTestCase extends TestCase
 
 	public function tearDown()
 	{
-		// $tables = $this->app->db->select('SHOW TABLES');
+		// reset database
         $DB = $this->app->db->getConnection();
         $tables = $DB->select('SHOW TABLES');
         foreach($tables as $table)

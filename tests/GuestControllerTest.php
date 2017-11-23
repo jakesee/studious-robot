@@ -30,27 +30,22 @@ class GuestControllerTest extends BaseTestCase
         $this->assertEquals('Password must have a length greater than 8', $data['errors']['password'][1]);
     }
 
- //    public function testGuestCanFailSignup()
- //    {
- //        $response = $this->request('POST', '/signup', [
- //            'name' => '',
- //            'email' => '',
- //            'password' => ''
- //        ]);
+	public function testGuestCanSignUp()
+	{
+        $controller = new GuestController($this->app->container);
 
- 
- //    }
+		$request = $this->createRequest('POST', '/signup', [
+			'name' => 'Bill Gates',
+			'email' => 'bill.gates@gmail.com',
+			'password' => 'difficultpassword'
+		]);
 
-	// public function testGuestCanSignUp()
-	// {
-	// 	$response = $this->request('POST', '/signup', [
-	// 		'name' => 'Bill Gates',
-	// 		'email' => 'bill.gates@gmail.com',
-	// 		'password' => 'difficultpassword'
-	// 	]);
+        $response = $controller->postSignUp($request, $this->app->response);
 
-	// 	$data = $response->getTemplate()->data;
- //        print_r($this->app->environment); exit();
- //        $this->assertNull($data['errors']);
-	// }
+		$data = $response->getTemplate()->data;
+        $this->assertNull($data['errors']);
+
+        $location = $response->getHeader('Location');
+        $this->assertEquals('/me/dashboard', $location[0]);
+	}
 }
