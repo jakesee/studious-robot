@@ -13,31 +13,18 @@ use \Slim\Http\Response;
 // TODO: Solve the problem of getting data prior to rendering by twigview
 class BaseTestCase extends TestCase
 {
-	protected $app;
-	protected $response;
+	protected static $app;
+	private $response;
 
-	public function setup()
+	public static function tearDownAfterClass()
 	{
-		$this->app = new \Application();
-	}
-
-	public function testAppIsInitialized()
-	{
-		$this->assertNotNull($this->app);
-	}
-
-	public function tearDown()
-	{
-		// reset database
-        $DB = $this->app->db->getConnection();
+		// clean up database
+        $DB = self::$app->db->getConnection();
         $tables = $DB->select('SHOW TABLES');
         foreach($tables as $table)
         {
             $DB->table($table->Tables_in_slim)->truncate();
         }
-
-        // remove the app
-		$this->app = null;
 	}
 
 	protected function assertStatus($expectedStatus)
@@ -64,7 +51,7 @@ class BaseTestCase extends TestCase
 	{
 		$request = $this->createRequest($method, $url, $requestParameters);
 		
-		$this->response = call_user_func_array($handler, array($request, $this->app->response));
+		$this->response = call_user_func_array($handler, array($request, self::$app->response));
 
 		return $this->response;
 	}

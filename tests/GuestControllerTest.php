@@ -8,17 +8,23 @@ use \Respect\Validation\Validator as v;
 
 class GuestControllerTest extends BaseTestCase
 {
-    public function testGuestCanFailSignUp()
-    {
-        $controller = new GuestController($this->app->container);
+    private $controller;
 
+    public function setUp()
+    {
+        self::$app = new \Application();
+        $this->controller = new GuestController(self::$app->container);
+    }
+
+    public function testCanFailSignUp()
+    {
         $request = $this->createRequest('POST', '/signup', [
             'name' => '',
             'email' => '',
             'password' => ''
         ]);
 
-        $response = $controller->postSignUp($request, $this->app->response);
+        $response = $this->controller->postSignUp($request, self::$app->response);
         $data = $response->getTemplate()->data;
         
         $this->assertEquals('Name must not be empty', $data['errors']['name'][0]);
@@ -30,22 +36,49 @@ class GuestControllerTest extends BaseTestCase
         $this->assertEquals('Password must have a length greater than 8', $data['errors']['password'][1]);
     }
 
-	public function testGuestCanSignUp()
+	public function testCanSignUp()
 	{
-        $controller = new GuestController($this->app->container);
-
 		$request = $this->createRequest('POST', '/signup', [
 			'name' => 'Bill Gates',
 			'email' => 'bill.gates@gmail.com',
 			'password' => 'difficultpassword'
 		]);
 
-        $response = $controller->postSignUp($request, $this->app->response);
+        print_r(self::$app->response->getTemplate()->data);
 
-		$data = $response->getTemplate()->data;
+        $response = $this->controller->postSignUp($request, self::$app->response);
+        $data = $response->getTemplate()->data;
         $this->assertNull($data['errors']);
 
         $location = $response->getHeader('Location');
         $this->assertEquals('/me/dashboard', $location[0]);
 	}
+
+    public function testSignInFail()
+    {
+        $request = $this->createRequest('POST', '/signin', [
+            'email' => 'jakesee@gmail.com',
+            'password' => '',
+        ]);
+
+        $response = $this->controller->postSignIn($request, self::$app->response);
+        $data = $response->getTemplate()->data;
+
+        $this->assertFalse($data['error']['result']);
+    }
+
+    public function testSignIn()
+    {
+        $request = $this->createRequest('POST', '/signin', [
+            'email' => 'bill.gates@gmail.com',
+            'password' => 'difficultpassword'
+        ]);
+
+        $response = $this->controller->postSignIn($request, self::$app->response);
+        $data = $response->getTemplate()->data;
+
+        $location = $response->getHeader('Location');
+        $this->assertEquals('/me/dashboard', $location[0]);
+    }
+
 }

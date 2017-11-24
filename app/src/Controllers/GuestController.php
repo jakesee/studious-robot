@@ -60,7 +60,10 @@ class GuestController extends Controller
 		if(!$auth)
 		{
 			$this->flash->addMessage('danger', 'Unable to sign in, credentials mismatched.');
-			return $response->withRedirect($this->router->pathFor('guest.signin'));
+			return $response->withTemplate('signin.php', [
+				'input' => $request->getParams(),
+				'error' => [ 'result' => false ]
+			]);
 		}
 		else
 		{
