@@ -11,7 +11,8 @@
         "illuminate/database": "^5.4",
         "respect/validation": "^1.1",
         "slim/flash": "^0.2.0",
-        "jakesee/slim-template-response": "^1.0.1"
+        "jakesee/slim-template-response": "^1.0.1",
+        "symfony/yaml": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7"

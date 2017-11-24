@@ -2,7 +2,9 @@
 session_start();
 
 require_once __DIR__.'/../vendor/autoload.php';
+
 use Respect\Validation\Validator as v;
+use Symfony\Component\Yaml\Yaml;
 
 final class Application
 {
@@ -11,19 +13,12 @@ final class Application
 
 	public function __construct()
 	{
+		$config = $this->parseConfig();
+
 		$this->app = new \Slim\App([
 			'settings' => [
 				'displayErrorDetails' => true,
-				'db' => [
-					'driver' => 'mysql',
-					'host' => 'localhost',
-					'database' => 'slim',
-					'username' => 'root',
-					'password' => '',
-					'charset' => 'utf8',
-					'collation' => 'utf8_unicode_ci',
-					'prefix' => '',
-				]
+				'db' => $config['db']
 			]
 		]);
 
@@ -52,6 +47,11 @@ final class Application
 	{
 		if(isset($this->container[$property]))
 			return $this->container[$property];
+	}
+
+	private function parseConfig()
+	{
+		return Yaml::parse(file_get_contents(__DIR__ . '/../config.yml'));
 	}
 
 	private function injectDependencies()

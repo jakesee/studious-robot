@@ -7,4 +7,5 @@ service:
 install:
   - composer install
 before_install:
+  - mv config.travis.yml config.yml
   - mysql -u root --password="" < schema.sql
