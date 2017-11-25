@@ -14,49 +14,23 @@ use \Slim\Http\Response;
 class BaseTestCase extends TestCase
 {
 	protected static $app;
-	private $response;
 
-	public static function tearDownAfterClass()
+	protected function assertStatus($response, $expectedStatus)
 	{
-		// clean up database
-        $DB = self::$app->db->getConnection();
-        $tables = $DB->select('SHOW TABLES');
-        foreach($tables as $table)
-        {
-            $DB->table($table->Tables_in_slim)->truncate();
-        }
+		$this->assertEquals($expectedStatus, $response->getStatusCode());
 	}
 
-	protected function assertStatus($expectedStatus)
+	protected function assertContentType($response, $expectedContentType)
 	{
-		$this->assertEquals($expectedStatus, $this->response->getStatusCode());
+		$this->assertEquals($expectedContentType, $response->getHeader('Content-Type'));
 	}
 
-	protected function assertContentType($expectedContentType)
+	protected function assertLocation($response, $expectedLocation)
 	{
-		$this->assertEquals($expectedContentType, $this->response->getHeader('Content-Type'));
+		$this->assertEquals($expectedLocation, $response->getHeader('Location')[0]);
 	}
 
-	protected function getResponseJson()
-	{
-		return json_decode((string) $this->response->getBody(), true);
-	}
-
-	protected function getResponseData()
-	{
-		return $this->response->getTemplate()->data;
-	}
-
-	protected function route($method, $url, array $requestParameters = [], $handler)
-	{
-		$request = $this->createRequest($method, $url, $requestParameters);
-		
-		$this->response = call_user_func_array($handler, array($request, self::$app->response));
-
-		return $this->response;
-	}
-
-	public function createRequest($method, $url, array $requestParameters)
+	public function createRequest($method, $url, array $requestParameters = [])
 	{
 		$env = Environment::mock([
 			'SCRIPT_NAME' => '/index.php',

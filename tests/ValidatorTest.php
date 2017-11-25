@@ -7,6 +7,10 @@ use \VUOX\Components\Validation\Validator;
 
 class ValidatorTest extends BaseTestCase
 {
+    public function setUp()
+    {
+        self::$app = new \Application();
+    }
     public function testValidatorCanFail()
     {
         $validator = new Validator();

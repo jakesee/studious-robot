@@ -28,7 +28,8 @@ class MeController extends Controller
 			'email' => $user->email,
 		]);
 
-		return $this->view->render($response, 'profile.twig', [
+		return $response->withTemplate('profile.twig', [
+			'user' => $user->toArray(),
 			'contacts' => $user->contacts,
 		]);
 	}
@@ -94,7 +95,7 @@ class MeController extends Controller
 	{
 		$this->session->logout();
 
-		$this->flash->addMessage('You have signed out safely now! See you again!');
+		$this->flash->addMessage('success', 'You have signed out safely now! See you again!');
 
 		return $response->withRedirect($this->router->pathFor('public.home'));
 	}

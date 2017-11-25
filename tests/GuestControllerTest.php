@@ -24,8 +24,7 @@ class GuestControllerTest extends BaseTestCase
             'password' => ''
         ]);
 
-        $response = $this->controller->postSignUp($request, self::$app->response);
-        $data = $response->getTemplate()->data;
+        $data = $this->controller->postSignUp($request, self::$app->response)->getTemplate()->data;
         
         $this->assertEquals('Name must not be empty', $data['errors']['name'][0]);
         $this->assertEquals('Email must not be empty', $data['errors']['email'][0]);
@@ -44,14 +43,12 @@ class GuestControllerTest extends BaseTestCase
 			'password' => 'difficultpassword'
 		]);
 
-        print_r(self::$app->response->getTemplate()->data);
-
         $response = $this->controller->postSignUp($request, self::$app->response);
         $data = $response->getTemplate()->data;
-        $this->assertNull($data['errors']);
 
-        $location = $response->getHeader('Location');
-        $this->assertEquals('/me/dashboard', $location[0]);
+        $this->assertNull($data['errors']);
+        $this->assertLocation($response, '/me/dashboard');
+        $this->assertTrue(self::$app->container->session->isValid());
 	}
 
     public function testSignInFail()
@@ -61,8 +58,7 @@ class GuestControllerTest extends BaseTestCase
             'password' => '',
         ]);
 
-        $response = $this->controller->postSignIn($request, self::$app->response);
-        $data = $response->getTemplate()->data;
+        $data = $this->controller->postSignIn($request, self::$app->response)->getTemplate()->data;
 
         $this->assertFalse($data['error']['result']);
     }
@@ -75,10 +71,9 @@ class GuestControllerTest extends BaseTestCase
         ]);
 
         $response = $this->controller->postSignIn($request, self::$app->response);
-        $data = $response->getTemplate()->data;
 
-        $location = $response->getHeader('Location');
-        $this->assertEquals('/me/dashboard', $location[0]);
+        $this->assertLocation($response, '/me/dashboard');
+        $this->assertTrue(self::$app->container->session->isValid());
     }
 
 }
