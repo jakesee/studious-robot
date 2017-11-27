@@ -26,7 +26,7 @@ class MeControllerTest extends BaseTestCase
         $request = $this->createRequest('GET', '/signout');
         $response = $this->controller->getSignOut($request, $this->app->response);
 
-        $this->assertzFalse($this->app->session->isValid());
+        $this->assertFalse($this->app->session->isValid());
         $this->assertLocation($response, '/');
     }
 
