@@ -9,10 +9,10 @@ class CleanUp extends BaseTestCase
 	// after all the tests have run
 	public function testCleanUpDatabase()
 	{
-		self::$app = new \Application();
+		$this->app = new \Application();
 
 		// clean up database
-        $DB = self::$app->db->getConnection();
+        $DB = $this->app->db->getConnection();
         $tables = $DB->select('SHOW TABLES');
         foreach($tables as $table)
         {

@@ -61,10 +61,7 @@ final class Application
 
 		// inject custom Response object to be used for deffered rendering of template
 		$this->container['response'] = function($container) {
-			$headers = new \Slim\Http\Headers(['Content-Type' => 'text/html; charset=UTF-8']);
-			$template = new \Braincase\Slim\Template($container, __DIR__ . '/../resources/views/');
-			$response = new \Braincase\Slim\Response($template, 200, $headers);
-
+			$response = new \Braincase\Slim\Response($container, __DIR__ . '/../resources/views/');
 			return $response->withProtocolVersion($container->get('settings')['httpVersion']);
 		};
 
@@ -99,6 +96,15 @@ final class Application
 		$this->container['flash'] = function($container) {
 			return new \Slim\Flash\Messages;
 		};
+	}
+
+	private function createResponse($container)
+	{
+		$headers = new \Slim\Http\Headers(['Content-Type' => 'text/html; charset=UTF-8']);
+		$template = new \Braincase\Slim\Template($container, __DIR__ . '/../resources/views/');
+		$response = new \Braincase\Slim\Response($template, 200, $headers);
+
+		return $response->withProtocolVersion($container->get('settings')['httpVersion']);
 	}
 
 	private function addMiddlewares()

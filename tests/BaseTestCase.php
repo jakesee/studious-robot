@@ -13,7 +13,7 @@ use \Slim\Http\Response;
 // TODO: Solve the problem of getting data prior to rendering by twigview
 class BaseTestCase extends TestCase
 {
-	protected static $app;
+	protected $app;
 
 	protected function assertStatus($response, $expectedStatus)
 	{

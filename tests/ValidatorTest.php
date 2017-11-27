@@ -9,7 +9,7 @@ class ValidatorTest extends BaseTestCase
 {
     public function setUp()
     {
-        self::$app = new \Application();
+        $this->app = new \Application();
     }
     public function testValidatorCanFail()
     {

@@ -12,8 +12,8 @@ class GuestControllerTest extends BaseTestCase
 
     public function setUp()
     {
-        self::$app = new \Application();
-        $this->controller = new GuestController(self::$app->container);
+        $this->app = new \Application();
+        $this->controller = new GuestController($this->app->container);
     }
 
     public function testCanFailSignUp()
@@ -24,7 +24,7 @@ class GuestControllerTest extends BaseTestCase
             'password' => ''
         ]);
 
-        $data = $this->controller->postSignUp($request, self::$app->response)->getTemplate()->data;
+        $data = $this->controller->postSignUp($request, $this->app->response)->getTemplate()->data;
         
         $this->assertEquals('Name must not be empty', $data['errors']['name'][0]);
         $this->assertEquals('Email must not be empty', $data['errors']['email'][0]);
@@ -43,12 +43,11 @@ class GuestControllerTest extends BaseTestCase
 			'password' => 'difficultpassword'
 		]);
 
-        $response = $this->controller->postSignUp($request, self::$app->response);
-        $data = $response->getTemplate()->data;
+        $response = $this->controller->postSignUp($request, $this->app->response);
 
-        $this->assertNull($data['errors']);
+        $this->assertNull($response->getTemplate());
         $this->assertLocation($response, '/me/dashboard');
-        $this->assertTrue(self::$app->container->session->isValid());
+        $this->assertTrue($this->app->container->session->isValid());
 	}
 
     public function testSignInFail()
@@ -58,7 +57,7 @@ class GuestControllerTest extends BaseTestCase
             'password' => '',
         ]);
 
-        $data = $this->controller->postSignIn($request, self::$app->response)->getTemplate()->data;
+        $data = $this->controller->postSignIn($request, $this->app->response)->getTemplate()->data;
 
         $this->assertFalse($data['error']['result']);
     }
@@ -70,10 +69,10 @@ class GuestControllerTest extends BaseTestCase
             'password' => 'difficultpassword'
         ]);
 
-        $response = $this->controller->postSignIn($request, self::$app->response);
+        $response = $this->controller->postSignIn($request, $this->app->response);
 
         $this->assertLocation($response, '/me/dashboard');
-        $this->assertTrue(self::$app->container->session->isValid());
+        $this->assertTrue($this->app->container->session->isValid());
     }
 
 }
